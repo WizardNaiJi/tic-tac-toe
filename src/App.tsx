@@ -16,7 +16,7 @@ export default function App() {
   }
 
   function jumpTo(nextMove: number) {
-    (nextMove);
+    setCurrentMove(nextMove);
   }
 
   const moves = history.map((_, move) => {

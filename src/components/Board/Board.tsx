@@ -10,8 +10,7 @@ interface Props {
 
 const Board: React.FC<Props> = (props) => {
     function handleClick(i: number) {
-        console.log('handleClick');
-        if (calculateWinner(props.squares) || props.squares[i]) {
+        if (calculateWinner(props.squares) || props.squares[i].value) {
             return;
         }
         const nextSquares = props.squares.slice();
@@ -19,13 +18,10 @@ const Board: React.FC<Props> = (props) => {
         props.onPlay(nextSquares);
     }
 
-    const winner = calculateWinner(props.squares);
-    let status;
-    if (winner) {
-        status = 'Winner: ' + winner;
-    } else {
-        status = 'Next player: ' + (props.xIsNext ? 'X' : 'O');
-    }
+    const winner: SquareContent | null = calculateWinner(props.squares);
+    let status = (winner != null)
+        ? 'Winner: ' + winner.value
+        : 'Next player: ' + (props.xIsNext ? 'X' : 'O');
 
     return (
         <>
@@ -62,7 +58,7 @@ function calculateWinner(squares: Array<SquareContent>) {
     ];
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        if (squares[a].value && squares[a].value === squares[b].value && squares[a].value === squares[c].value) {
             return squares[a];
         }
     }
